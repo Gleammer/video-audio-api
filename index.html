@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="wrapper">
+            <div>
+                <h3>Current selected:</h3>
+                <p class="current-selected">--</p>
+            </div>
+            <!-- Video and Audio components -->
+            <video muted>
+                <source src="src/videos/171124_C1_HD_012.mp4" type="video/mp4">
+                <audio>
+                    <source src="src/audios/Kanye_West_-_I_Wonder_Extended_Int_(getmp3.pro).mp3" type="audio/mpeg">
+                </audio>
+                <!-- Fallback for browsers that don't support -->
+                <a href="src/videos/171124_C1_HD_012.mp4">Download Video</a>
+            </video>
+
+            <!-- Testing button -->
+            <button class="video-resume-pause">Resume/Pause</button>
+            <button class="video-stop">Stop video and audio</button>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="src/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+body {
+    font-family: sans-serif;
+}
+
+body #app{
+    display: block;
+    position: relative;
+}
+
+body #app .wrapper{
+    display: block;
+    margin: 0 auto;
+    max-width: max(80%, 1080px);
+}
+
+#app video{
+    display: block;
+    width: 100%;
+}
