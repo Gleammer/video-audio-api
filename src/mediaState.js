@@ -2,7 +2,7 @@ class mediaState {
     _videoSource = {}
     _audioSource = {}
     _mediaNodeInstance = undefined
-
+    
     constructor(videoSource = '', audioSource = ''){
         this._videoSource = videoSource
         this._audioSource = audioSource
@@ -36,27 +36,34 @@ class mediaState {
     /* Create Media Node with video and audio */
     createMediaNode = () => {
         // Video Node
-        let videoNode = document.createElement('video')
-        videoNode.setAttribute('muted', '')
-        // Source inside Video Node
-        let videoSourceNode = document.createElement('source')
-        videoSourceNode.setAttribute('src', this.videoSource)
+        const videoNode = document.createElement('video')
+        videoNode.src = this._videoSource
+        videoNode.muted = true
+        videoNode.controls = true
+        videoNode.preload = 'metadata'
+        videoNode.load()
+
+        console.log(videoNode.readyState)
         
         // Audio Node
-        let audioNode = document.createElement('audio')
-        // Source inside Audio Node
-        let audioSourceNode = document.createElement('source')
-        audioSourceNode.setAttribute('src', this.audioSource)
+        const audioNode = document.createElement('audio')
+        audioNode.src = this._audioSource
+        audioNode.controls = true
+        audioNode.load()
         
-        audioNode.append(audioSourceNode)
-        videoNode.append(videoSourceNode, audioNode)
-        this._mediaNodeInstance = videoNode
+        //videoNode.append(audioNode)
+        this._mediaNodeInstance = document.createElement('div')
+        this._mediaNodeInstance.append(videoNode, audioNode)
     }
     
     serveMediaNode = () => {
         document.querySelector('#app .media-wrapper').appendChild(this._mediaNodeInstance)
     }
-
+    
+    playPauseMedia = () => {
+        this._mediaNodeInstance.play()
+    }
+    
     deleteMediaNode = () => {
         delete this._mediaNodeInstance
     }
