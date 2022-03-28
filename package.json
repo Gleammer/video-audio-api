@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html --open"
+    "start": "hrs ."
   },
   "author": "Radu Chirilov",
   "license": "ISC",
   "dependencies": {
     "i": "^0.3.7",
     "npm": "^8.5.5",
-    "parcel": "^2.4.0",
     "src": "^1.1.2"
   },
   "devDependencies": {
