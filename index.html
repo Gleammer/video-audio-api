@@ -6,25 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="src/style.css">
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <div class="wrapper">
             <div>
                 <h3>Current selected:</h3>
-                <p class="current-selected">--</p>
+                <p class="current-selected">Video: <span class="video-src">--</span> and Audio: <span class="audio-src">--</span></p>
             </div>
             <!-- Video and Audio components -->
             <div class="media-wrapper">
-                <video controls src="./static/videos/video1.mp4"></video>
-            </div>
+                <video-js id="video-entity"></video-js>
 
-            <!-- Testing button -->
+                <audio id="audio-entity" class="video-js" controls>
+                    <source id="custom-audio-track" src="static/audios/audio1.mp3">
+                </audio>
+                <audio id="audio-entity-2" class="video-js" controls>
+                    <source id="custom-audio-track-2" src="static/audios/audio2.mp3">
+                </audio>
+            </div>
+            
+            <!-- Settings buttons -->
+            <div>
+                <button onclick="select_video(0)">Video 1</button>
+                <button onclick="select_video(1)">Video 2</button>
+                <br>
+                <button onclick="select_audio(0)">Audio 1</button>
+                <button onclick="select_audio(1)">Audio 2</button>
+            </div>
+            
+            <!-- Controls button -->
             <button class="video-resume-pause">Resume/Pause</button>
             <button class="video-stop">Stop video and audio</button>
         </div>
     </div>
     
+    <!-- <script type="text/javascript" src="src/mediaState.js"></script> -->
+    <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+    <script src="https://unpkg.com/@videojs/http-streaming@2.14.0/dist/videojs-http-streaming.min.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
 </body>
 </html>

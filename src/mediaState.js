@@ -1,11 +1,13 @@
 class mediaState {
     _videoSource = {}
     _audioSource = {}
+    _wrapperNode = undefined
     _mediaNodeInstance = undefined
     
-    constructor(videoSource = '', audioSource = ''){
+    constructor({wrapperNode = undefined, videoSource = {}, audioSource = {}}){
         this._videoSource = videoSource
         this._audioSource = audioSource
+        this._wrapperNode = wrapperNode
     }
     
     /* Getters and setters */
@@ -37,10 +39,9 @@ class mediaState {
     createMediaNode = () => {
         // Video Node
         const videoNode = document.createElement('video')
-        videoNode.src = this._videoSource
+        videoNode.src = this._videoSource._audioSource
         videoNode.muted = true
         videoNode.controls = true
-        videoNode.preload = 'metadata'
         videoNode.load()
 
         console.log(videoNode.readyState)
@@ -68,5 +69,3 @@ class mediaState {
         delete this._mediaNodeInstance
     }
 }
-
-export default mediaState;

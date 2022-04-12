@@ -12,7 +12,8 @@
   "dependencies": {
     "i": "^0.3.7",
     "npm": "^8.5.5",
-    "src": "^1.1.2"
+    "src": "^1.1.2",
+    "video.js": "^7.18.1"
   },
   "devDependencies": {
     "parcel-plugin-static-files-copy": "^2.6.0"
