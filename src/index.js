@@ -1,8 +1,8 @@
 var $ = document.querySelector.bind(document)
 var ffmpeg = window.ffmpeg
 
-const getVideoBuffer = () => fetch('../static/videos/video1.mp4').then(res => res.arrayBuffer()).catch(err => console.log(err))
-const getAudioBuffer = () => fetch('../static/audios/audio1.mp3').then(res => res.arrayBuffer()).catch(err => console.log(err))
+const getVideoBuffer = (video) => fetch('../static/videos/' + video).then(res => res.arrayBuffer()).catch(err => console.log(err))
+const getAudioBuffer = (audio) => fetch('../static/audios/' + audio).then(res => res.arrayBuffer()).catch(err => console.log(err))
 
 const videoList = [ 
     'video1.mp4',
@@ -54,8 +54,8 @@ const setAudioSelect = () => {
     })
 }
 
-const createVideo = async () => {
-    let [videoBuffer, audioBuffer] = await Promise.all([getVideoBuffer(), getAudioBuffer()]);
+const createVideoAsync = async (videoName, audioName) => {
+    let [videoBuffer, audioBuffer] = await Promise.all([getVideoBuffer(videoName), getAudioBuffer(audioName)]);
     console.log('Video buffer: ' + videoBuffer);
     console.log('Audio buffer: ' + audioBuffer);
     const resBuffer = await getNewVideo(videoBuffer, audioBuffer)
@@ -86,12 +86,18 @@ getNewVideo = async (videoBuffer, audioBuffer) => {
     return Uint8Array.from(out.data)
 }
 
+const createVideo = () => {
+    const videoOption = $('#video-select').value
+    const audioOption = $('#audio-select').value
+
+    console.log(`Create video using video: ${videoOption} and audio: ${audioOption}`)
+    createVideoAsync(videoOption, audioOption)
+}
+
 const initialSetUp = () => {
     setVideoSelect()
     setAudioSelect()
-    $('#create-video').addEventListener('click', (event) => {
-        console.log(event.target)
-    })
+    $('#create-video').addEventListener('click', createVideo)
     //createVideo()
 }
 
