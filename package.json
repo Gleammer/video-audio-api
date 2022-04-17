@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "hrs ."
+    "start": "http-server ."
   },
   "author": "Radu Chirilov",
   "license": "ISC",
   "dependencies": {
+    "http-server": "^14.1.0",
     "i": "^0.3.7",
     "npm": "^8.5.5",
     "src": "^1.1.2",

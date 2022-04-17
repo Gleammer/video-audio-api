@@ -1,80 +1,104 @@
-// Get button controlls instances
-const resumePauseButton = document.querySelector('#app button.video-resume-pause')
-const stopButton = document.querySelector('#app button.video-stop')
+var $ = document.querySelector.bind(document)
+var ffmpeg = window.ffmpeg
 
-const sourceList = {
-    videoSourceList: [
-        'video1',
-        'video2'
-    ],
-    audioSourceList: [
-        'audio1',
-        'audio2'
-    ]
-} // for future -- to be imported from json
+const getVideoBuffer = (video) => fetch('../static/videos/' + video).then(res => res.arrayBuffer()).catch(err => console.log(err))
+const getAudioBuffer = (audio) => fetch('../static/audios/' + audio).then(res => res.arrayBuffer()).catch(err => console.log(err))
 
-// Select media wrapper
-/*
-const videoTag = document.querySelector('#app .media-wrapper');
-const mediaNode = new mediaState({
-    wrapperNode: videoTag,
-    videoSource: {},
-    audioSource: {}
-});
-*/
+const videoList = [ 
+    'video1.mp4',
+    'video2.mp4',
+    'video3.mp4',
+    'video4.mp4',
+    'video5.mp4',
+    'video6.mp4',
+    'video7.mp4',
+    'video8.mp4',
+    'video9.mp4',
+    'video10.mp4',
+    'video11.mp4',
+    'video12.mp4'
+]
 
-let player = videojs("video-entity", {
-    controls: true,
-    autoplay: false,
-    preload: 'auto',
-    sources: [
-        {
-            src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            type: 'video/mp4'
-        }
-    ]
-}, (event) => {
-    console.log(event)
-    console.log('Player ready')
-})
+const audioList = [
+    'audio1.mp3',
+    'audio2.mp3',
+    'audio3.mp3',
+    'audio4.mp3',
+    'audio5.mp3',
+    'audio6.mp3',
+    'audio7.mp3',
+    'audio8.mp3',
+    'audio9.mp3',
+    'audio10.mp3',
+    'audio11.mp3',
+    'audio12.mp3'
+]
 
-// Create a track object.
-var track = new videojs.AudioTrack({
-    id: 'custom-audio-track',
-    kind: 'main',
-    label: 'CustomAudio',
-    language: 'en'
-});
+const setVideoSelect = () => {
+    const videoSelect = $('#video-select')
+    videoList.forEach(elem => {
+        let option = document.createElement('option')
+        option.text = elem
+        option.value = elem
+        videoSelect.appendChild(option)
+    })
+}
 
-var track2 = new videojs.AudioTrack({
-    id: 'custom-audio-track-2',
-    kind: 'translation',
-    label: 'CustomAudio2',
-    language: 'en'
-});
+const setAudioSelect = () => {
+    const audioSelect = $('#audio-select')
+    audioList.forEach(elem => {
+        let option = document.createElement('option')
+        option.text = elem
+        option.value = elem
+        audioSelect.appendChild(option)
+    })
+}
 
-// Add the track to the player's audio track list.
-player.audioTracks().addTrack(track);
-player.audioTracks().addTrack(track2);
-
-console.log(player.audioTracks())
-
-// Listen to Play, Pause and Stop buttons
-resumePauseButton.addEventListener('click', (event) => {
-    event.preventDefault()
-    videoTag.src = "./static/videos/video2.mp4"
-    videoTag.load()
-})
-
-stopButton.addEventListener('click', (event) => {
-    event.preventDefault()
+const createVideoAsync = async (videoName, audioName) => {
+    let [videoBuffer, audioBuffer] = await Promise.all([getVideoBuffer(videoName), getAudioBuffer(audioName)]);
+    console.log('Video buffer: ' + videoBuffer);
+    console.log('Audio buffer: ' + audioBuffer);
+    const resBuffer = await getNewVideo(videoBuffer, audioBuffer)
+    console.log('New compiled Video buffer')
+    const blob = new Blob([resBuffer], {type: 'video/mp4'})
+    const dataUri = window.URL.createObjectURL(blob)
     
-})
+    const video = $('#mp4')
+    video.src = dataUri
+}
 
-// Testing buttons
-let select_video = (index) => {
-    console.log(index)
+getNewVideo = async (videoBuffer, audioBuffer) => {
+    var result = ffmpeg({
+        MEMFS: [
+            {name: "video.mp4", data: videoBuffer},
+            {name: "audio.wav", data: audioBuffer}
+        ],
+        arguments: ["-i", "video.mp4", "-i", "audio.wav", "-c:v", "copy", "-c:a", "aac", "output.mp4"],
+        
+        // Ignore stdin read requests.
+        stdin: function() {},
+    });
+    // Write out.gif to disk.
+    var out = result.MEMFS[0];
+    if (!out) {
+        throw new Error('Could not convert video')
+    }
+    return Uint8Array.from(out.data)
 }
-let select_audio = (index) => {
-    console.log(index)
+
+const createVideo = () => {
+    const videoOption = $('#video-select').value
+    const audioOption = $('#audio-select').value
+
+    console.log(`Create video using video: ${videoOption} and audio: ${audioOption}`)
+    createVideoAsync(videoOption, audioOption)
 }
+
+const initialSetUp = () => {
+    setVideoSelect()
+    setAudioSelect()
+    $('#create-video').addEventListener('click', createVideo)
+    //createVideo()
+}
+
+initialSetUp()
