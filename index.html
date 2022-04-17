@@ -11,11 +11,15 @@
 <body>
     <div id="app">
         <div class="wrapper">
-            <video src="/static/videos/video1.mp4" controls width="300"></video>
-            <audio src="/static/audios/audio1.mp3" controls></audio>
+            <video src="/static/videos/video.mp4" controls width="300"></video>
+            <audio src="/static/audios/audio.wav" controls></audio>
+            <hr>
+            <img id="out-gif" src="" alt="GIF">
+            <video id="mp4" controls></video>
         </div>
     </div>
-    
+
+    <script src="src/js/ffmpeg-mp4.browser.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
 </body>
 </html>
