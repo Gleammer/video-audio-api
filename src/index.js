@@ -58,6 +58,7 @@ const createVideoAsync = async (videoName, audioName) => {
     let [videoBuffer, audioBuffer] = await Promise.all([getVideoBuffer(videoName), getAudioBuffer(audioName)]);
     console.log('Video buffer: ' + videoBuffer);
     console.log('Audio buffer: ' + audioBuffer);
+    
     const resBuffer = await getNewVideo(videoBuffer, audioBuffer)
     console.log('New compiled Video buffer')
     const blob = new Blob([resBuffer], {type: 'video/mp4'})
@@ -68,7 +69,7 @@ const createVideoAsync = async (videoName, audioName) => {
 }
 
 getNewVideo = async (videoBuffer, audioBuffer) => {
-    var result = ffmpeg({
+    var result = await ffmpeg({
         MEMFS: [
             {name: "video.mp4", data: videoBuffer},
             {name: "audio.wav", data: audioBuffer}
@@ -89,7 +90,7 @@ getNewVideo = async (videoBuffer, audioBuffer) => {
 const createVideo = () => {
     const videoOption = $('#video-select').value
     const audioOption = $('#audio-select').value
-
+    
     console.log(`Create video using video: ${videoOption} and audio: ${audioOption}`)
     createVideoAsync(videoOption, audioOption)
 }
