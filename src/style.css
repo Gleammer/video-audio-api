@@ -1,1 +1,20 @@
 /* Silence is golden */
+form#video-radio,
+form#audio-radio{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 1rem;
+    column-gap: 1rem;
+}
+form#video-radio .videoRadioWrapper video,
+form#audio-radio .audioRadioWrapper audio{
+    display: block;
+    position: relative;
+    width: 100%;
+}
+form#video-radio .videoRadioWrapper input,
+form#audio-radio .audioRadioWrapper input{
+    display: block;
+    margin: 0 auto;
+}
+

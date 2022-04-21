@@ -33,23 +33,47 @@ const audioList = [
     'audio12.mp3'
 ]
 
-const setVideoSelect = () => {
-    const videoSelect = $('#video-select')
-    videoList.forEach(elem => {
-        let option = document.createElement('option')
-        option.text = elem
-        option.value = elem
-        videoSelect.appendChild(option)
+const setVideoRadio = () => {
+    const videoRadio = $('#video-radio')
+    
+    videoList.forEach((elem, index) => {
+        let wrapperNode = document.createElement('div')
+        wrapperNode.classList.add('videoRadioWrapper')
+
+        let videoNode = document.createElement('video')
+        videoNode.src = `../static/videos/${elem}`
+        videoNode.controls = true
+
+        let inputNode = document.createElement('input')
+        inputNode.type = 'radio'
+        inputNode.value = elem
+        inputNode.name = 'video'
+
+        wrapperNode.appendChild(videoNode)
+        wrapperNode.appendChild(inputNode)
+        videoRadio.appendChild(wrapperNode)
     })
 }
 
-const setAudioSelect = () => {
-    const audioSelect = $('#audio-select')
-    audioList.forEach(elem => {
-        let option = document.createElement('option')
-        option.text = elem
-        option.value = elem
-        audioSelect.appendChild(option)
+const setAudioRadio = () => {
+    const audioRadio = $('#audio-radio')
+    
+    audioList.forEach((elem, index) => {
+        let wrapperNode = document.createElement('div')
+        wrapperNode.classList.add('audioRadioWrapper')
+
+        let audioNode = document.createElement('audio')
+        audioNode.src = `../static/audios/${elem}`
+        audioNode.controls = true
+
+        let inputNode = document.createElement('input')
+        inputNode.type = 'radio'
+        inputNode.value = elem
+        inputNode.name = 'audio'
+
+        wrapperNode.appendChild(audioNode)
+        wrapperNode.appendChild(inputNode)
+        audioRadio.appendChild(wrapperNode)
     })
 }
 
@@ -140,8 +164,8 @@ const createVideo = () => {
 }
 
 const initialSetUp = () => {
-    setVideoSelect()
-    setAudioSelect()
+    setVideoRadio()
+    setAudioRadio()
     $('#create-video').addEventListener('click', createVideo)
 }
 
